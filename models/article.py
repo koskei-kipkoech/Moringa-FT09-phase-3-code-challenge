@@ -62,9 +62,9 @@ class Article:
         CURSOR = conn.cursor()
         '''RETRIVES AND RETURN AUTHOR WHO WROTE THE ARTICLE'''
         sql = """
-            SELECT a.* FROM authors a
-            INNER JOIN articles ar ON ar.author = a.id
-            WHERE ar.id =?
+            SELECT authors.* FROM authors 
+            INNER JOIN articles  ON articles.author = authors.id
+            WHERE articles.id =?
         """
         CURSOR.execute(sql, (self.id,))
         author_data = CURSOR.fetchone()
@@ -80,9 +80,9 @@ class Article:
         CURSOR = conn.cursor()
         '''RETRIVES AND RETURN MAGAZINE WHERE THE ARTICLE WAS PUBLISHED'''
         sql = """
-            SELECT m.* FROM magazines  m
-            INNER JOIN articles ar ON ar.magazine = m.id
-            WHERE ar.id =?
+            SELECT magazines.* FROM magazines  
+            INNER JOIN articles ON articles.magazine = magazines.id
+            WHERE articles.id =?
         """
         CURSOR.execute(sql, (self.id,))
         magazine_data = CURSOR.fetchone()
