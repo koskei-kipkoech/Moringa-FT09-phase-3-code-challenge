@@ -121,7 +121,7 @@ class Magazine:
             SELECT DISTINCT authors.*
             FROM authors 
             INNER JOIN articles ON articles.author = authors.id
-            INNER JOIN magazines on articles.magazine = magazines.id
+            INNER JOIN magazines ON articles.magazine = magazines.id
             WHERE magazines.id = ?
             GROUP BY authors.id
             HAVING COUNT(articles.id) > 2
