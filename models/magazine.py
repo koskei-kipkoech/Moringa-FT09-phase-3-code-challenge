@@ -60,9 +60,9 @@ class Magazine:
         conn = get_db_connection()
         CURSOR = conn.cursor()
         sql = """
-            SELECT ar.* 
-            FROM articles ar 
-            INNER JOIN magazines m ON ar.magazines = m.id
+            SELECT articles.* 
+            FROM articles  
+            INNER JOIN magazines ON articles.magazines = magazines.id
             WHERE magazine_id = ?
         """
         CURSOR.execute(sql,(self.id,))
@@ -79,10 +79,10 @@ class Magazine:
         CURSOR = conn.cursor()
         """retrieves and returns a lst of authors who wrote articles in this magazine"""
         sql = """
-            SELECT DISTINCT a.*
-            FROM authors a
-            INNER JOIN articles ar ON ar.author = a.id
-            INNER JOIN magazines m on ar.magazine = m.id
+            SELECT DISTINCT authors.*
+            FROM authors
+            INNER JOIN articles ar ON articles.author = authors.id
+            INNER JOIN magazines m on articles.magazine = magazines.id
             WHERE m.id = ?
         """
 
@@ -98,9 +98,9 @@ class Magazine:
         conn = get_db_connection()
         CURSOR = conn.cursor()
         sql = """
-            SELECT ar.title
-            FROM articles ar
-            INNER JOIN magazines m ON ar.magazine = m.id
+            SELECT articles.title
+            FROM articles 
+            INNER JOIN magazines ON articles.magazine = magazines.id
             WHERE m.id = ?
         """
 
@@ -118,13 +118,13 @@ class Magazine:
         conn = get_db_connection()
         CURSOR = conn.cursor()
         sql = """
-            SELECT DISTINCT a.*
-            FROM authors a
-            INNER JOIN articles ar ON ar.author = a.id
-            INNER JOIN magazines m on ar.magazine = m.id
-            WHERE m.id = ?
-            GROUP BY a.id
-            HAVING COUNT(ar.id) > 2
+            SELECT DISTINCT authors.*
+            FROM authors 
+            INNER JOIN articles ON articles.author = authors.id
+            INNER JOIN magazines on articles.magazine = magazines.id
+            WHERE magazines.id = ?
+            GROUP BY authors.id
+            HAVING COUNT(articles.id) > 2
         """
 
         CURSOR.execute(sql, (self.id,))
